@@ -43,16 +43,16 @@ class MarkdownParser(Parser):
     
     def parse(self, path, source, dest):
         content = Content.load(self.read(path))
-        thml = markdown(content.body)
+        hmtl = markdown(content.body)
         self.write(path, dest, html)
         sys.stdout.write("\x1b[1;23m{} converted to HTML medataa:{}\n".format(path.name, content))
         
         
 class ReStructuredTextParser(Parser):
-    extensions = [".rst"]
+     extensions = [".rst"]
     
     def parse(self, path, source, dest):
         content = Content.load(self.read(path))
-        thml = publish_parts(content.body, writer_name="html")
+        html = publish_parts(content.body, writer_name="html")
         self.write(path, dest, html["html_body"])
         sys.stdout.write("\x1b[1;23m{} converted to HTML medataa:{}\n".format(path.name, content))
