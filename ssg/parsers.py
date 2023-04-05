@@ -1,6 +1,11 @@
 from typing import List
 from pathlib import Path
 import shutil
+import sys
+
+from docutils.core import publish_parts
+from markdown import markdown
+from content import Content
 
 class Parser:
     # extensions List[str]
@@ -32,3 +37,22 @@ class ResourceParser(Parser):
      
     def parse(self, path, source, dest):
         self.copy(path, source, dest) 
+
+class MarkdownParser(Parser):
+    extensions = [".md", ".markdown"]
+    
+    def parse(self, path, source, dest):
+        content = Content.load(self.read(path))
+        thml = markdown(content.body)
+        self.write(path, dest, html)
+        sys.stdout.write("\x1b[1;23m{} converted to HTML medataa:{}\n".format(path.name, content))
+        
+        
+class ReStructuredTextParser(Parser):
+    extensions = [".rst"]
+    
+    def parse(self, path, source, dest):
+        content = Content.load(self.read(path))
+        thml = publish_parts(content.body, writer_name="html")
+        self.write(path, dest, html["html_body"])
+        sys.stdout.write("\x1b[1;23m{} converted to HTML medataa:{}\n".format(path.name, content))

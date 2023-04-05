@@ -1,5 +1,5 @@
 from pathlib import Path
-
+import sys
 
 print("hello")
 
@@ -23,7 +23,7 @@ class Site:
         if parser is not None:
             parser.parse(path, self.source, self.dest)
         else:
-            print("not implemented")           
+            self.error("No parser for the  {}, file skipped".format(path.suffix))        
         
     def build(self):
         self.dest.mkdir(parents=True, exist_ok=True)     
@@ -35,3 +35,7 @@ class Site:
                 
         print(path)
                    
+                   
+    @staticmethod
+    def error(message):
+        sys.stderr.write("\x1b[1;31m{}\n".format(message))                  
